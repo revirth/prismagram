@@ -7,7 +7,7 @@ type User {
   bio: String
   followers: [User!]
   followings: [User!]
-  posts: [Post!]!
+  posts: [Post!]
   likes: [Like!]!
   comments: [Comment!]!
   rooms: [Room!]!
