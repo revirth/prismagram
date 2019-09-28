@@ -32,6 +32,6 @@
     "generate": "prisma generate",
     "prisma": "yarn run deploy && yarn run generate",
     "dev": "nodemon --exec babel-node src/server.js",
-    "api": "sh -c 'cd ./src/api && mkdir ${0} && cd ${0} && mkdir ${1} && cd ${1} && touch ${1}.graphql && touch ${1}.js'"
+    "api": "sh -c 'cd ./src/api && mkdir -p ${0} && cd ${0} && mkdir ${1} && cd ${1} && touch ${1}.graphql && touch ${1}.js'"
   }
 }
