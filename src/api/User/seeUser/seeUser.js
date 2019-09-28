@@ -7,5 +7,8 @@ export default {
 
       return await prisma.user({ id });
     }
+  },
+  User: {
+    fullName: parent => `${parent.firstName} ${parent.lastName}`
   }
 };

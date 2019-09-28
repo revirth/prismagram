@@ -11,5 +11,8 @@ export default {
 
       return await prisma.user({ id: user.id }).$fragment(USER_FRAGMENT);
     }
+  },
+  User: {
+    fullName: parent => `${parent.firstName} ${parent.lastName}`
   }
 };
