@@ -8,6 +8,12 @@ export default {
       const user = await prisma.user({ email });
 
       if (user.loginSecret === secret) {
+        // reset loginSecret
+        await prisma.updateUser({
+          where: { id: user.id },
+          data: { loginSecret: "" }
+        });
+
         return generateToken(user.id);
       } else {
         throw Error("Wrong email or secret key");
