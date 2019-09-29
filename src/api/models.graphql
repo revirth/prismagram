@@ -8,11 +8,13 @@ type User {
   bio: String
   followers: [User!]
   followings: [User!]
+  isFollowing: Boolean
   posts: [Post!]
   likes: [Like!]!
   comments: [Comment!]!
   rooms: [Room!]!
   loginSecret: String!
+  isMe: Boolean!
 }
 
 type Post {
