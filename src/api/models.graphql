@@ -29,6 +29,11 @@ type Post {
   likeCount: Int!
 }
 
+type UserProfile {
+  user: User!
+  posts: [Post]!
+}
+
 type Like {
   id: ID!
   user: User!

@@ -6,7 +6,10 @@ export default {
     seeUser: async (_, args, { request }) => {
       const { id } = args;
 
-      return await prisma.user({ id }).$fragment(USER_FRAGMENT);
+      return {
+        user: await await prisma.user({ id }),
+        posts: await await prisma.user({ id }).posts()
+      };
     }
   }
 };
