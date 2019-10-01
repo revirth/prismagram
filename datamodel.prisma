@@ -16,18 +16,18 @@ type User {
 
 type Post {
   id: ID! @id
-  files: [File!]!
+  files: [File!]! @relation(name: "FilesOfPost", onDelete: CASCADE)
   location: String
   caption: String!
   user: User!
-  likes: [Like!]!
+  likes: [Like!]! @relation(name: "LikesOfPost", onDelete: CASCADE)
   comments: [Comment!]!
 }
 
 type Like {
   id: ID! @id
   user: User!
-  post: Post!
+  post: Post @relation(name: "LikesOfPost")
 }
 
 type Comment {
@@ -40,7 +40,7 @@ type Comment {
 type File {
   id: ID! @id
   url: String!
-  post: Post!
+  post: Post @relation(name: "FilesOfPost")
 }
 
 type Room {
