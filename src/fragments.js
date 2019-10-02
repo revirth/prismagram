@@ -1,20 +1,20 @@
 export const USER_FRAGMENT = `
-user {
     id 
     userName 
     email 
     firstName 
     lastName 
     bio
-}`;
+    avatar`;
 
 export const COMMENT_FRAGMENT = `
 comments {
     id
     text
-    ${USER_FRAGMENT}
-}
-`;
+    user {
+        ${USER_FRAGMENT}
+    }
+}`;
 
 export const FILE_FRAGMENT = `
 files {
@@ -32,5 +32,15 @@ fragment PostParts on Post {
 
     ${COMMENT_FRAGMENT}
 
-    ${USER_FRAGMENT}
+    user {
+        ${USER_FRAGMENT}
+    }
+}`;
+
+export const ROOM_FRAGMENT = `
+fragment RoomParts on Room {
+    id
+    participants {
+        ${USER_FRAGMENT}
+    }
 }`;
