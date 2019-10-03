@@ -4,14 +4,20 @@ type User {
   email: String!
   firstName: String
   lastName: String
+  fullName: String
   bio: String
+  avatar: String
   followers: [User!]
   followings: [User!]
+  isFollowing: Boolean
   posts: [Post!]
   likes: [Like!]!
   comments: [Comment!]!
   rooms: [Room!]!
   loginSecret: String!
+  isMe: Boolean!
+  createdAt: String
+  updatedAt: String
 }
 
 type Post {
@@ -22,12 +28,25 @@ type Post {
   user: User!
   likes: [Like!]!
   comments: [Comment!]!
+  isLiked: Boolean!
+  likeCount: Int!
+  createdAt: String
+  updatedAt: String
+}
+
+type UserProfile {
+  user: User!
+  posts: [Post]!
+  createdAt: String
+  updatedAt: String
 }
 
 type Like {
   id: ID!
   user: User!
   post: Post!
+  createdAt: String
+  updatedAt: String
 }
 
 type Comment {
@@ -35,18 +54,24 @@ type Comment {
   text: String!
   user: User!
   post: Post!
+  createdAt: String
+  updatedAt: String
 }
 
 type File {
   id: ID!
   url: String!
   post: Post!
+  createdAt: String
+  updatedAt: String
 }
 
 type Room {
   id: ID!
   participants: [User!]!
   messages: [Message!]!
+  createdAt: String
+  updatedAt: String
 }
 
 type Message {
@@ -55,4 +80,6 @@ type Message {
   from: User!
   to: User!
   room: Room!
+  createdAt: String
+  updatedAt: String
 }

@@ -5,28 +5,36 @@ type User {
   firstName: String @default(value: "")
   lastName: String
   bio: String
+  avatar: String
   followers: [User!] @relation(name: "FollowRelation")
   followings: [User!] @relation(name: "FollowRelation")
   posts: [Post!]!
   likes: [Like!]!
   comments: [Comment!]!
   rooms: [Room!]!
+  loginSecret: String
+  createdAt: DateTime @createdAt
+  updatedAt: DateTime @updatedAt
 }
 
 type Post {
   id: ID! @id
-  files: [File!]!
+  files: [File!]! @relation(name: "FilesOfPost", onDelete: CASCADE)
   location: String
   caption: String!
   user: User!
-  likes: [Like!]!
+  likes: [Like!]! @relation(name: "LikesOfPost", onDelete: CASCADE)
   comments: [Comment!]!
+  createdAt: DateTime @createdAt
+  updatedAt: DateTime @updatedAt
 }
 
 type Like {
   id: ID! @id
   user: User!
-  post: Post!
+  post: Post @relation(name: "LikesOfPost")
+  createdAt: DateTime @createdAt
+  updatedAt: DateTime @updatedAt
 }
 
 type Comment {
@@ -34,18 +42,24 @@ type Comment {
   text: String!
   user: User!
   post: Post!
+  createdAt: DateTime @createdAt
+  updatedAt: DateTime @updatedAt
 }
 
 type File {
   id: ID! @id
   url: String!
-  post: Post!
+  post: Post @relation(name: "FilesOfPost")
+  createdAt: DateTime @createdAt
+  updatedAt: DateTime @updatedAt
 }
 
 type Room {
   id: ID! @id
   participants: [User!]!
   messages: [Message!]!
+  createdAt: DateTime @createdAt
+  updatedAt: DateTime @updatedAt
 }
 
 type Message {
@@ -54,4 +68,6 @@ type Message {
   from: User! @relation(name: "From")
   to: User! @relation(name: "To")
   room: Room!
+  createdAt: DateTime @createdAt
+  updatedAt: DateTime @updatedAt
 }
