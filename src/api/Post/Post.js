@@ -14,6 +14,9 @@ export default {
       await prisma
         .likesConnection({ where: { post: { id: parent.id } } })
         .aggregate()
-        .count()
+        .count(),
+    files: async parent => await prisma.post({ id: parent.id }).files(),
+    comments: async parent => await prisma.post({ id: parent.id }).comments(),
+    user: async parent => await prisma.post({ id: parent.id }).user()
   }
 };
