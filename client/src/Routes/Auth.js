@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Input from "../Components/Input";
 import Button from "../Components/Button";
+import useInput from "../Hooks/useInput";
 
 const Wrapper = styled.div`
   min-height: 80vh;
@@ -49,26 +50,42 @@ const Form = styled(Box)`
 
 export default () => {
   const [action, setAction] = useState("login");
+  const username = useInput("");
+  const password = useInput("");
+  const firstname = useInput("");
+  const lastname = useInput("");
+  const email = useInput("");
 
   return (
     <Wrapper>
       <Form>
+        {action === "login" ? (
+          <form>
+            <Input placeholder={"Username"} {...username} />
+            <Input placeholder={"Password"} {...password} type="password" />
+            <Button text={"Log in"} />
+          </form>
+        ) : (
+          <form>
+            <Input placeholder={"First Name"} {...firstname} />
+            <Input placeholder={"Last Name"} {...lastname} />
+            <Input placeholder={"Email"} {...email} type="email" />
+            <Input placeholder={"Username"} {...username} />
+            <Input placeholder={"Password"} {...password} type="password" />
+            <Button text={"Sign up"} />
+          </form>
+        )}
         <StateChanger>
           {action === "login" ? (
-            <form>
-              <Input placeholder={"Username"} />
-              <Input placeholder={"Password"} />
-              <Button text={"Log in"} />
-            </form>
+            <>
+              Don't have an account?&nbsp;
+              <Link onClick={() => setAction("signUp")}>Sign up</Link>
+            </>
           ) : (
-            <form>
-              <Input placeholder={"First Name"} />
-              <Input placeholder={"Last Name"} />
-              <Input placeholder={"Email"} />
-              <Input placeholder={"Username"} />
-              <Input placeholder={"Password"} />
-              <Button text={"Sign up"} />
-            </form>
+            <>
+              Have an account?&nbsp;
+              <Link onClick={() => setAction("login")}>Log in</Link>
+            </>
           )}
         </StateChanger>
       </Form>
