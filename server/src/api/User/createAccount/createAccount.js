@@ -5,15 +5,19 @@ export default {
     createAccount: async (_, args) => {
       const { userName, email, firstName = "", lastName = "", bio = "" } = args;
 
-      const user = await prisma.createUser({
-        userName,
-        email,
-        firstName,
-        lastName,
-        bio
-      });
+      try {
+        await prisma.createUser({
+          userName,
+          email,
+          firstName,
+          lastName,
+          bio
+        });
 
-      return user;
+        return true;
+      } catch (error) {
+        return false;
+      }
     }
   }
 };
