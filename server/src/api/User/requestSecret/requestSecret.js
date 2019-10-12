@@ -13,7 +13,7 @@ export default {
       try {
         await prisma.updateUser({ data: { loginSecret }, where: { email } });
 
-        sendSecretMail(email);
+        await sendSecretMail(email, loginSecret);
 
         return true;
       } catch (error) {
