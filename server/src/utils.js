@@ -21,12 +21,12 @@ const sendMail = email => {
   return client.sendMail(email);
 };
 
-export const sendSecretMail = emailTo => {
+export const sendSecretMail = (emailTo, secret) => {
   const email = {
     from: "admin@prismagram.com",
     to: emailTo,
     subject: "Login Secret for Prismagram :)",
-    html: `Hello! login secret is <b>${generateSecret()}</b>  <br />Copy paste on the app to log in`
+    html: `Hello! login secret is <b>${secret}</b>  <br />Copy paste on the app to log in`
   };
 
   sendMail(email);
