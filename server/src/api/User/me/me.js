@@ -8,10 +8,7 @@ export default {
 
       const { user } = request;
 
-      return {
-        user: await prisma.user({ id: user.id }),
-        posts: await prisma.user({ id: user.id }).posts()
-      };
+      return await prisma.user({ id: user.id });
     }
   }
 };
