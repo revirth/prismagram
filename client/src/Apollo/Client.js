@@ -3,5 +3,8 @@ import { defaults, resolvers } from "./LocalState";
 
 export default new ApolloClient({
   uri: "//localhost:4000",
-  clientState: { defaults, resolvers }
+  clientState: { defaults, resolvers },
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`
+  }
 });
