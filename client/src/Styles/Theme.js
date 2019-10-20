@@ -8,7 +8,7 @@ export default {
   blueColor: "#3897f0",
   redColo: "#ED4956 ",
   darkGrayColor: "#999",
-  lightGrayColo: "#c7c7c7",
+  lightGrayColor: "#c7c7c7",
   darkBlueColor: "#003569",
   boxBorder: `${boxBorder}`,
   borderRadius: `${borderRadius}`,
