@@ -47,5 +47,26 @@ export default () => {
 
   console.log(data, loading);
 
-  return <Wrapper>{loading && <Loader />}</Wrapper>;
+  return (
+    <Wrapper>
+      {loading && <Loader />}
+      {!loading &&
+        data &&
+        data.seeFeed &&
+        data.seeFeed.map(post => (
+          <Post
+            key={post.id}
+            id={post.id}
+            location={post.location}
+            caption={post.caption}
+            user={post.user}
+            files={post.files}
+            likeCount={post.likeCount}
+            isLiked={post.isLiked}
+            comments={post.comments}
+            createdAt={post.createdAt}
+          />
+        ))}
+    </Wrapper>
+  );
 };
