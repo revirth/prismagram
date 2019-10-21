@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import PostPresenter from "./PostPresenter";
 
@@ -17,6 +17,19 @@ const PostContainer = ({
   const [likeCountState, setLikeCountState] = useState(likeCount);
   const comment = useState("");
 
+  // image slide
+  const [currentImgIndex, setcurrentImgIndex] = useState(0);
+  const slide = () => {
+    const totalFiles = files.length;
+
+    if (currentImgIndex === totalFiles - 1)
+      setTimeout(() => setcurrentImgIndex(0), 3000);
+    else setTimeout(() => setcurrentImgIndex(currentImgIndex + 1), 3000);
+  };
+  useEffect(() => {
+    slide();
+  }, [currentImgIndex]);
+
   return (
     <PostPresenter
       user={user}
@@ -30,6 +43,7 @@ const PostContainer = ({
       setLikeCount={setLikeCountState}
       caption={caption}
       location={location}
+      currentImgIndex={currentImgIndex}
     />
   );
 };
