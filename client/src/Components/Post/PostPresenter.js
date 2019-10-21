@@ -1,4 +1,5 @@
 import React from "react";
+import TextareaAutosize from "react-autosize-textarea";
 import styled from "styled-components";
 import FatText from "./FatText";
 import Avatar from "../Avatar";
@@ -61,13 +62,24 @@ const Timestamp = styled.span`
   border-bottom: ${props => props.theme.lightGrayColor} 1px solid;
 `;
 
+const Textarea = styled(TextareaAutosize)`
+  border: none;
+  width: 100%;
+  resize: none;
+  font-size: 14px;
+  &:focus {
+    outline: none;
+  }
+`;
+
 export default ({
   user: { userName, avatar },
   location,
   files,
   isLiked,
   likeCount,
-  createdAt
+  createdAt,
+  newComment
 }) => (
   <Post>
     <Header>
@@ -88,8 +100,8 @@ export default ({
         </Button>
       </Buttons>
       <FatText text={likeCount + " likes"} />
-      &nbsp;
       <Timestamp>{createdAt}</Timestamp>
+      <Textarea placeholder="Add a comment..." {...newComment} />
     </Meta>
   </Post>
 );
