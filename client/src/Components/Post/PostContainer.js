@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import PostPresenter from "./PostPresenter";
+import { useMutation } from "react-apollo-hooks";
+import { TOGGLE_LIKE, ADD_COMMENT } from "./PostQueries";
+import useInput from "../../Hooks/useInput";
 
 const PostContainer = ({
   id,
@@ -15,7 +18,7 @@ const PostContainer = ({
 }) => {
   const [isLikedState, setIsLikedState] = useState(isLiked);
   const [likeCountState, setLikeCountState] = useState(likeCount);
-  const comment = useState("");
+  const comment = useInput("");
 
   // image slide
   const [currentImgIndex, setcurrentImgIndex] = useState(0);
@@ -29,6 +32,21 @@ const PostContainer = ({
   useEffect(() => {
     slide();
   }, [currentImgIndex]);
+
+  // useMutation
+  const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
+    variables: { postId: id }
+  });
+  const [addCommentMutation] = useMutation(ADD_COMMENT, {
+    variables: { text: comment.value, postId: id }
+  });
+
+  const toggleLike = () => {
+    setIsLikedState(!isLikedState);
+    setLikeCountState(likeCountState + (!isLikedState ? 1 : -1));
+
+    toggleLikeMutation();
+  };
 
   return (
     <PostPresenter
@@ -44,6 +62,7 @@ const PostContainer = ({
       caption={caption}
       location={location}
       currentImgIndex={currentImgIndex}
+      toggleLike={toggleLike}
     />
   );
 };
