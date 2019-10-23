@@ -4,6 +4,7 @@ import PostPresenter from "./PostPresenter";
 import { useMutation } from "react-apollo-hooks";
 import { TOGGLE_LIKE, ADD_COMMENT } from "./PostQueries";
 import useInput from "../../Hooks/useInput";
+import { toast } from "react-toastify";
 
 const PostContainer = ({
   id,
@@ -18,6 +19,7 @@ const PostContainer = ({
 }) => {
   const [isLikedState, setIsLikedState] = useState(isLiked);
   const [likeCountState, setLikeCountState] = useState(likeCount);
+  const [selfComments, setSelfComments] = useState([]);
   const comment = useInput("");
 
   // image slide
@@ -48,6 +50,23 @@ const PostContainer = ({
     toggleLikeMutation();
   };
 
+  const onKeyPress = async e => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      comment.setValue("");
+
+      try {
+        const {
+          data: { addComment }
+        } = await addCommentMutation();
+
+        setSelfComments([...selfComments, addComment]);
+      } catch (error) {
+        toast.error("Can't add a comment");
+      }
+    }
+  };
+
   return (
     <PostPresenter
       user={user}
@@ -63,6 +82,8 @@ const PostContainer = ({
       location={location}
       currentImgIndex={currentImgIndex}
       toggleLike={toggleLike}
+      onKeyPress={onKeyPress}
+      selfComments={selfComments}
     />
   );
 };
