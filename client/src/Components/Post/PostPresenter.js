@@ -4,6 +4,7 @@ import styled from "styled-components";
 import FatText from "./FatText";
 import Avatar from "../Avatar";
 import { HeartFull, HeartEmpty, Comment as CommentIcon } from "../Icons";
+import Moment from "react-moment";
 
 const Post = styled.div`
   ${props => props.theme.whiteBox};
@@ -142,7 +143,9 @@ export default ({
         </Button>
       </Buttons>
       <FatText text={likeCount + " likes"} />
-      <Timestamp>{createdAt}</Timestamp>
+      <Timestamp>
+        <Moment fromNow>{createdAt}</Moment>
+      </Timestamp>
       {comments && (
         <Comments>
           {comments.map(comment => (
