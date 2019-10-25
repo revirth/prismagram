@@ -5,7 +5,7 @@ type User {
   firstName: String @default(value: "")
   lastName: String
   bio: String
-  avatar: String
+  avatar: String @default(value: "https://www.soluteo.com/wp-content/uploads/2019/02/avatar-homme-BG-B-256x256.png")
   followers: [User!] @relation(name: "FollowRelation")
   followings: [User!] @relation(name: "FollowRelation")
   posts: [Post!]!
