@@ -8,9 +8,12 @@ type User {
   bio: String
   avatar: String
   followers: [User!]
+  followerCount: Int!
   followings: [User!]
+  followingCount: Int!
   isFollowing: Boolean
-  posts: [Post!]
+  posts: [Post!]!
+  postCount: Int!
   likes: [Like!]!
   comments: [Comment!]!
   rooms: [Room!]!
@@ -31,13 +34,6 @@ type Post {
   isLiked: Boolean!
   likeCount: Int!
   commentCount: Int!
-  createdAt: String
-  updatedAt: String
-}
-
-type UserProfile {
-  user: User!
-  posts: [Post]!
   createdAt: String
   updatedAt: String
 }
