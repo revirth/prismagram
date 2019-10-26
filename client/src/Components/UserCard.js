@@ -4,7 +4,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import Avatar from "./Avatar";
 import FatText from "./Post/FatText";
-import Button from "./Button";
+import FollowButton from "./FollowButton";
 
 const Card = styled.div`
   ${props => props.theme.whiteBox}
@@ -23,17 +23,18 @@ const ELink = styled(Link)`
   margin-bottom: 10px;
 `;
 
-const UserCard = ({ userName, avatar, isFollowing, isMe }) => (
+const UserCard = ({ id, userName, avatar, isFollowing, isMe }) => (
   <Card>
     <EAvatar url={avatar} size={"md"} />
     <ELink to={`/${userName}`}>
       <FatText text={userName} />
     </ELink>
-    {!isMe && <Button text={isFollowing ? "Unfollow" : "Follow"} />}
+    {!isMe && <FollowButton isFollowing={isFollowing} id={id} />}
   </Card>
 );
 
 UserCard.propTypes = {
+  id: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
   isFollowing: PropTypes.bool.isRequired,
