@@ -8,6 +8,7 @@ export const SEARCH_QUERY = gql`
         url
       }
       likeCount
+      commentCount
     }
     searchUser(term: $term) {
       id

@@ -5,6 +5,7 @@ import FatText from "../../Components/Post/FatText";
 import PropTypes from "prop-types";
 import Loader from "../../Components/Loader";
 import UserCard from "../../Components/UserCard";
+import SquarePost from "../SquarePost";
 
 const Wrapper = styled.div`
   height: 50vh;
@@ -13,10 +14,17 @@ const Wrapper = styled.div`
 
 const Section = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 160px);
   grid-template-rows: 160px;
+  grid-auto-rows: 160px;
   grid-gap: 20px;
   margin-bottom: 30px;
+`;
+
+const PostSection = styled(Section)`
+  grid-template-columns: repeat(4, 200px);
+  grid-template-rows: 200px;
+  grid-auto-rows: 200px;
 `;
 
 const SearchPresenter = ({ searchTerm, loading, data }) => (
@@ -43,14 +51,23 @@ const SearchPresenter = ({ searchTerm, loading, data }) => (
           />
         ))}
     </Section>
-    {!loading && data && data.searchPost && data.searchPost.length === 0 && (
-      <FatText text={"No Photos found"} />
-    )}
-    {!loading &&
-      data &&
-      data.searchPost &&
-      data.searchPost.length > 0 &&
-      data.searchPost.map(post => post.urls)}
+    <PostSection>
+      {!loading && data && data.searchPost && data.searchPost.length === 0 && (
+        <FatText text={"No Photos found"} />
+      )}
+      {!loading &&
+        data &&
+        data.searchPost &&
+        data.searchPost.length > 0 &&
+        data.searchPost.map(post => (
+          <SquarePost
+            key={post.id}
+            likeCount={post.likeCount}
+            commentCount={post.commentCount}
+            file={post.files[0].url}
+          />
+        ))}
+    </PostSection>
   </Wrapper>
 );
 
