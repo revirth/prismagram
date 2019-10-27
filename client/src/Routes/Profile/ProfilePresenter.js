@@ -6,6 +6,7 @@ import Avatar from "../../Components/Avatar";
 import FatText from "../../Components/Post/FatText";
 import FollowButton from "../../Components/FollowButton";
 import SquarePost from "../SquarePost";
+import Button from "../../Components/Button";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -61,7 +62,7 @@ const PostSection = styled.div`
   margin-bottom: 30px;
 `;
 
-export default ({ data, loading }) => {
+export default ({ data, loading, logUserOut }) => {
   if (loading)
     return (
       <Wrapper>
@@ -96,6 +97,7 @@ export default ({ data, loading }) => {
           <HeaderColumn>
             <UserNameRow>
               <UserName>{userName}</UserName>
+              {isMe && <Button onClick={logUserOut} text="Logout" />}
               {!isMe && <FollowButton id={id} isFollowing={isFollowing} />}
             </UserNameRow>
             <Counts>
