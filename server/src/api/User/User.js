@@ -16,6 +16,27 @@ export default {
       const { id: parentId } = parent;
 
       return user.id === parentId;
-    }
+    },
+    followings: ({ id }) => prisma.user({ id }).followings(),
+    followingCount: ({ id }) =>
+      prisma
+        .usersConnection({ where: { followers_some: { id } } })
+        .aggregate()
+        .count(),
+    followers: ({ id }) => prisma.user({ id }).followers(),
+    followerCount: ({ id }) =>
+      prisma
+        .usersConnection({ where: { followers_none: { id } } })
+        .aggregate()
+        .count(),
+    posts: ({ id }) => prisma.user({ id }).posts(),
+    postCount: ({ id }) =>
+      prisma
+        .postsConnection({ where: { user: { id } } })
+        .aggregate()
+        .count(),
+    likes: ({ id }) => prisma.user({ id }).likes(),
+    comments: ({ id }) => prisma.user({ id }).comments(),
+    rooms: ({ id }) => prisma.user({ id }).rooms()
   }
 };
