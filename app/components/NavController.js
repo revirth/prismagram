@@ -1,26 +1,21 @@
 import React from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import { useIsLoggedIn, useLogIn, useLogOut } from "../AuthContext";
 import AuthNavigation from "../Navigation/AuthNavigation";
+import MainNavigation from "../Navigation/MainNavigation";
 
 export default () => {
-  const isLoggedIn = useIsLoggedIn();
-  const logUserIn = useLogIn();
-  const logUserOut = useLogOut();
+  const isLoggedIn = true; //useIsLoggedIn();
+  // const logUserIn = useLogIn();
+  // const logUserOut = useLogOut();
 
   console.log("NavController.js", "default()", "isLoggedIn", isLoggedIn);
-  console.log("NavController.js", "default()", "logUserIn", logUserIn);
-  console.log("NavController.js", "default()", "logUserOut", logUserOut);
+  // console.log("NavController.js", "default()", "logUserIn", logUserIn);
+  // console.log("NavController.js", "default()", "logUserOut", logUserOut);
 
   return (
     <View style={{ flex: 1 }}>
-      {/* {isLoggedIn === true ? (
-        <TouchableOpacity onPress={logUserOut}>
-          <Text>Log Out {Date(Date.now()).toString()}</Text>
-        </TouchableOpacity>
-      ) : ( */}
-      <AuthNavigation />
-      {/* )} */}
+      {isLoggedIn ? <MainNavigation /> : <AuthNavigation />}
     </View>
   );
 };
