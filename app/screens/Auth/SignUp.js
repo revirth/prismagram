@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import AuthButton from "../../components/AuthButton";
 
 const View = styled.View`
   flex: 1;
@@ -11,7 +12,7 @@ const Text = styled.Text``;
 
 const SignUp = () => (
   <View>
-    <Text>SignUp</Text>
+    <AuthButton text="Sign Up" onPress={() => null} />
   </View>
 );
 
