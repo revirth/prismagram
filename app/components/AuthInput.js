@@ -23,7 +23,7 @@ const AuthInput = ({
   placeholder,
   value,
   returnKeyType = "done",
-  onEndEditing = () => null
+  onSubmitEditing = () => null
 }) => (
   <Container>
     <TextInput
@@ -34,7 +34,7 @@ const AuthInput = ({
       placeholder={placeholder}
       value={value}
       returnKeyType={returnKeyType}
-      onEndEditing={onEndEditing}
+      onSubmitEditing={onSubmitEditing}
     />
   </Container>
 );
@@ -51,7 +51,7 @@ AuthInput.propTypes = {
     "phone-pad"
   ]),
   onChange: PropTypes.func.isRequired,
-  onEndEditing: PropTypes.func.isRequired,
+  onSubmitEditing: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
 
