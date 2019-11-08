@@ -35,10 +35,10 @@ const Login = ({ navigation }) => {
 
       if (!requestSecret) {
         Alert.alert("You don't have an account yet, create one");
-        navigation.navigate("SignUp");
+        navigation.navigate("SignUp", { email: value });
       } else {
         Alert.alert("Check your inbox for your login secret");
-        navigation.navigate("Confirm");
+        navigation.navigate("Confirm", { email: value });
       }
     } catch (error) {
       Alert.alert(error);
