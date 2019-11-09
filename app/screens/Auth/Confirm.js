@@ -45,6 +45,7 @@ const Confirm = ({ navigation }) => {
 
       if (token !== "" && token !== undefined) {
         logIn(token);
+        // navigation.navigate("Home");
       } else {
         Alert.alert("Can't confirm the secret");
       }
