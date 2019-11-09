@@ -7,6 +7,7 @@ import { Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useMutation } from "react-apollo-hooks";
 import { CREATE_ACCOUNT } from "./AuthQueries";
 import * as Facebook from "expo-facebook";
+import * as Google from "expo-google-app-auth";
 
 const View = styled.View`
   flex: 1;
@@ -29,6 +30,8 @@ const SignUp = ({ navigation }) => {
   const userNameInput = useInput("");
 
   const [loading, setLoading] = useState(false);
+  const [loadingButton, setLoadingButton] = useState("");
+
   const [createAccountMutation] = useMutation(CREATE_ACCOUNT, {
     variables: {
       userName: userNameInput.value,
@@ -39,6 +42,9 @@ const SignUp = ({ navigation }) => {
   });
 
   const handleSignUp = async () => {
+    setLoadingButton("SignUp");
+    setLoading(true);
+
     const { value: email } = emailInput;
     const regxEmail = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
     if (!regxEmail.test(email)) return Alert.alert("Email is NOT valid");
@@ -71,12 +77,22 @@ const SignUp = ({ navigation }) => {
       navigation.navigate("LogIn", { email: email });
     } finally {
       setLoading(false);
+      setLoadingButton("");
     }
   };
 
+  const updateFormData = (email, firstName, lastName) => {
+    emailInput.setValue(email);
+    firstNameInput.setValue(firstName);
+    lastNameInput.setValue(lastName);
+    userNameInput.setValue(email.split("@")[0]);
+  };
+
   const fbLogin = async () => {
-    setLoading(true);
     try {
+      setLoadingButton("Facebook");
+      setLoading(true);
+
       const {
         type,
         token,
@@ -95,12 +111,7 @@ const SignUp = ({ navigation }) => {
         const data = await response.json();
         console.log(data);
 
-        emailInput.setValue(data.email);
-        firstNameInput.setValue(data.first_name);
-        lastNameInput.setValue(data.last_name);
-        userNameInput.setValue(data.email.split("@")[0]);
-
-        // Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
+        updateFormData(data.email, data.first_name, data.last_name);
       } else {
         // type === 'cancel'
         Alert.alert(`Facebook Login Error`);
@@ -109,6 +120,32 @@ const SignUp = ({ navigation }) => {
       Alert.alert(`Facebook Login Error: ${message}`);
     } finally {
       setLoading(false);
+      setLoadingButton("");
+    }
+  };
+
+  const googleLogin = async () => {
+    setLoadingButton("Google");
+    setLoading(true);
+
+    try {
+      const { type, accessToken, user } = await Google.logInAsync({
+        // iosClientId: `<YOUR_IOS_CLIENT_ID_FOR_EXPO>`,
+        androidClientId:
+          "695972421871-ljigann8fmiofeij6mdq3il0dng51hs8.apps.googleusercontent.com",
+        scopes: ["profile", "email"]
+      });
+
+      console.log(user);
+
+      if (type === "success")
+        updateFormData(user.email, user.familyName, user.givenName);
+      else Alert.alert(`Google Login Error`);
+    } catch (e) {
+      Alert.alert(`Google Login Error`);
+    } finally {
+      setLoading(false);
+      setLoadingButton("");
     }
   };
 
@@ -136,13 +173,25 @@ const SignUp = ({ navigation }) => {
           placeholder="UsreName"
           returnKeyType="send"
         />
-        <AuthButton text="SignUp" onPress={handleSignUp} loading={loading} />
+        <AuthButton
+          text="SignUp"
+          onPress={handleSignUp}
+          loading={loading && loadingButton == "SignUp"}
+        />
         <FBContainer>
           <AuthButton
             bgColor="#2D4DA7"
             loading={false}
             text="Connect Facebook"
             onPress={fbLogin}
+            loading={loading && loadingButton == "Facebook"}
+          ></AuthButton>
+          <AuthButton
+            bgColor="#EE1922"
+            loading={false}
+            text="Connect Google"
+            onPress={googleLogin}
+            loading={loading && loadingButton == "Google"}
           ></AuthButton>
         </FBContainer>
       </View>
