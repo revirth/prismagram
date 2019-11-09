@@ -21,7 +21,7 @@ const AuthInput = ({
   keyboardType = "default",
   onChange,
   placeholder,
-  value,
+  value = "",
   returnKeyType = "done",
   onSubmitEditing = () => null
 }) => (
@@ -53,7 +53,7 @@ AuthInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   onSubmitEditing: PropTypes.func,
   placeholder: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
 
   returnKeyType: PropTypes.oneOf(["done", "go", "next", "search", "send"])
 };
