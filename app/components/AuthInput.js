@@ -51,7 +51,7 @@ AuthInput.propTypes = {
     "phone-pad"
   ]),
   onChange: PropTypes.func.isRequired,
-  onSubmitEditing: PropTypes.func.isRequired,
+  onSubmitEditing: PropTypes.func,
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
 
