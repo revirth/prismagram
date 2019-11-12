@@ -9,13 +9,17 @@ import { createStackNavigator } from "react-navigation-stack";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MessagesLink from "../components/MessagesLink";
 import NavIcon from "../components/NavIcons";
+import { stackStyles } from "./config";
 
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator(
     {
       initialRoute: {
         screen: initialRoute,
-        navigationOptions: { ...customConfig }
+        navigationOptions: {
+          ...customConfig,
+          headerStyle: { ...stackStyles }
+        }
       }
     },
     {
