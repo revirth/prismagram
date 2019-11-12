@@ -31,16 +31,24 @@ const TabNavigation = createBottomTabNavigator(
         headerTitle: <NavIcon name="logo-instagram" size={40} />
       }),
       navigationOptions: {
-        tabBarIcon: (
-          <NavIcon name={Platform.OS === "ios" ? "ios-home" : "md-home"} />
+        tabBarIcon: ({ focused }) => (
+          <NavIcon
+            focused={focused}
+            size={28}
+            name={Platform.OS === "ios" ? "ios-home" : "md-home"}
+          />
         )
       }
     },
     Search: {
       screen: stackFactory(Search, { title: "Search" }),
       navigationOptions: {
-        tabBarIcon: (
-          <NavIcon name={Platform.OS === "ios" ? "ios-search" : "md-search"} />
+        tabBarIcon: ({ focused }) => (
+          <NavIcon
+            focused={focused}
+            size={28}
+            name={Platform.OS === "ios" ? "ios-search" : "md-search"}
+          />
         )
       }
     },
@@ -49,31 +57,50 @@ const TabNavigation = createBottomTabNavigator(
       navigationOptions: {
         tabBarOnPress: ({ navigation }) =>
           navigation.navigate("PhotoNavigation"),
-        tabBarIcon: (
-          <NavIcon name={Platform.OS === "ios" ? "ios-add" : "md-add"} />
+        tabBarIcon: ({ focused }) => (
+          <NavIcon
+            focused={focused}
+            size={28}
+            name={Platform.OS === "ios" ? "ios-add" : "md-add"}
+          />
         )
       }
     },
     Notification: {
       screen: stackFactory(Notification, { title: "Notification" }),
       navigationOptions: {
-        tabBarIcon: (
-          <NavIcon name={Platform.OS === "ios" ? "ios-heart" : "md-heart"} />
+        tabBarIcon: ({ focused }) => (
+          <NavIcon
+            focused={focused}
+            size={28}
+            name={
+              Platform.OS === "ios"
+                ? `ios-heart${focused ? "" : "-empty"}`
+                : `md-heart${focused ? "" : "-empty"}`
+            }
+          />
         )
       }
     },
     Profile: {
       screen: stackFactory(Profile, { title: "Profile" }),
       navigationOptions: {
-        tabBarIcon: (
-          <NavIcon name={Platform.OS === "ios" ? "ios-person" : "md-person"} />
+        tabBarIcon: ({ focused }) => (
+          <NavIcon
+            focused={focused}
+            size={28}
+            name={Platform.OS === "ios" ? "ios-person" : "md-person"}
+          />
         )
       }
     }
   },
   {
     tabBarOptions: {
-      showLabel: false
+      showLabel: false,
+      style: {
+        backgroundColor: "#FAFAFA"
+      }
     }
   }
 );
