@@ -20,6 +20,8 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   const preLoad = async () => {
+    // await AsyncStorage.clear(); // clear login info
+
     try {
       await Font.loadAsync({ ...Ionicons.font });
       await Asset.loadAsync([require("./assets/logo.png")]);
@@ -30,11 +32,18 @@ export default function App() {
 
       const client = new ApolloClient({
         cache,
+        request: async operation => {
+          const token = await AsyncStorage.getItem("jwt");
+          return operation.setContext({
+            headers: { Authorization: `Bearer ${token}` }
+          });
+        },
         ...apolloClientOptions
       });
 
       const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-      console.log("App.js", "preLoad()", "isLoggedIn", isLoggedIn);
+      const jwt = await AsyncStorage.getItem("jwt");
+      console.log("App.js", "preLoad()", "isLoggedIn", isLoggedIn, "jwt", jwt);
       if (isLoggedIn === null || isLoggedIn === "false") setIsLoggedIn(false);
       else setIsLoggedIn(true);
 
