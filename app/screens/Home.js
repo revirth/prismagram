@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useQuery } from "react-apollo-hooks";
 import { FEED_QUERY } from "./Queries";
 import Loader from "../components/Loader";
+import Post from "../components/Post";
 
 const View = styled.View`
   flex: 1;
@@ -29,7 +30,7 @@ const Home = () => {
     }
   };
 
-  console.log(data, loading);
+  // if (!loading) console.log(data.seeFeed.length, loading);
 
   return (
     <ScrollView
@@ -37,7 +38,11 @@ const Home = () => {
         <RefreshControl refreshing={refreshing} onRefresh={refresh} />
       }
     >
-      {loading ? <Loader /> : <Text>Home</Text>}
+      {loading && <Loader />}
+      {!loading &&
+        data &&
+        data.seeFeed &&
+        data.seeFeed.map(post => <Post key={post.id} {...post} />)}
     </ScrollView>
   );
 };
