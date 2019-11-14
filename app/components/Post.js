@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Image } from "react-native";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import Swiper from "react-native-swiper";
+import constants from "../constants";
 
 const Container = styled.View``;
 
@@ -25,7 +27,7 @@ const Location = styled.Text`
   font-size: 12px;
 `;
 
-const Post = ({ location, user }) => {
+const Post = ({ location, user, files = [] }) => {
   return (
     <Container>
       <Header>
@@ -42,6 +44,15 @@ const Post = ({ location, user }) => {
           </HeaderUserContainer>
         </Touchable>
       </Header>
+      <Swiper loop={false} style={{ height: constants.height / 2.5 }}>
+        {files.map(file => (
+          <Image
+            key={file.id}
+            style={{ width: constants.width, height: constants.height / 2.5 }}
+            source={{ uri: file.url }}
+          />
+        ))}
+      </Swiper>
     </Container>
   );
 };
