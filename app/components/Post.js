@@ -4,6 +4,8 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import Swiper from "react-native-swiper";
 import constants from "../constants";
+import { Ionicons } from "@expo/vector-icons";
+import { Platform } from "@unimodules/core";
 
 const Container = styled.View``;
 
@@ -27,7 +29,36 @@ const Location = styled.Text`
   font-size: 12px;
 `;
 
-const Post = ({ location, user, files = [] }) => {
+const IconsContainer = styled.View`
+  flex-direction: row;
+  margin-bottom: 10px;
+`;
+
+const IconContainer = styled.View`
+  margin-right: 10px;
+`;
+
+const InfoContainer = styled.View`
+  padding: 10px;
+`;
+
+const Caption = styled.Text`
+  margin: 3px 0px;
+`;
+
+const CommentCount = styled.Text`
+  opacity: 0.5;
+  font-size: 12;
+`;
+
+const Post = ({
+  location,
+  user,
+  files = [],
+  likeCount,
+  caption,
+  comments = []
+}) => {
   return (
     <Container>
       <Header>
@@ -53,6 +84,43 @@ const Post = ({ location, user, files = [] }) => {
           />
         ))}
       </Swiper>
+      <InfoContainer>
+        <IconsContainer>
+          <Touchable>
+            <IconContainer>
+              <Ionicons
+                size={30}
+                name={
+                  Platform.OS === "ios" ? "ios-heart-empty" : "md-heart-empty"
+                }
+              />
+            </IconContainer>
+          </Touchable>
+          <Touchable>
+            <IconContainer>
+              <Ionicons
+                size={30}
+                name={
+                  Platform.OS === "ios" ? "ios-heart-empty" : "md-heart-empty"
+                }
+              />
+            </IconContainer>
+          </Touchable>
+        </IconsContainer>
+        <Touchable>
+          <Bold>{likeCount === 1 ? likeCount : `${likeCount} likes`}</Bold>
+        </Touchable>
+        <Touchable>
+          <Caption>
+            <Bold>{user.userName}</Bold> {caption}
+          </Caption>
+          {comments.length > 0 && (
+            <Touchable>
+              <CommentCount>See all {comments.length} comments</CommentCount>
+            </Touchable>
+          )}
+        </Touchable>
+      </InfoContainer>
     </Container>
   );
 };
