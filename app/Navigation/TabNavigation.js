@@ -45,7 +45,7 @@ const TabNavigation = createBottomTabNavigator(
       }
     },
     Search: {
-      screen: stackFactory(Search, { title: "Search" }),
+      screen: stackFactory(Search),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
           <NavIcon
@@ -100,6 +100,7 @@ const TabNavigation = createBottomTabNavigator(
     }
   },
   {
+    initialRouteName: "Search",
     tabBarOptions: {
       showLabel: false,
       style: {
