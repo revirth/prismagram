@@ -3,6 +3,8 @@ import { ScrollView, RefreshControl } from "react-native";
 import PropTypes from "prop-types";
 import { gql } from "apollo-boost";
 import { useQuery } from "react-apollo-hooks";
+import Loader from "../../components/Loader";
+import SquarePhoto from "../../components/SquarePhoto";
 
 export const SEARCH_QUERY = gql`
   query search($term: String!) {
@@ -27,7 +29,8 @@ export const SEARCH_QUERY = gql`
 const SearchPresenter = ({ term, shouldFetch }) => {
   const { data, loading, refetch } = useQuery(SEARCH_QUERY, {
     variables: { term: term },
-    skip: !shouldFetch
+    skip: !shouldFetch,
+    fetchPolicy: "network-only"
   });
 
   console.log(data, loading);
@@ -50,7 +53,16 @@ const SearchPresenter = ({ term, shouldFetch }) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={refresh} />
       }
-    />
+    >
+      {loading && <Loader />}
+      {!loading &&
+        data &&
+        data.searchPost &&
+        data.searchPost.length > 0 &&
+        data.searchPost.map(post => {
+          return <SquarePhoto key={post.id} {...post} />;
+        })}
+    </ScrollView>
   );
 };
 
