@@ -8,17 +8,17 @@ const SearchBar = ({ onChange, value, onSubmit }) => (
   <TextInput
     onChangeText={onChange}
     onEndEditing={onSubmit}
-    placeholder="🔍 Search"
+    placeholder="Search"
     placeholderTextColor={styles.darkGreyColor}
     returnKeyType="search"
     style={{
-      width: constants.width - 30,
+      width: constants.width - 40,
       height: 35,
       backgroundColor: styles.lightGreyColor,
       padding: 10,
       borderRadius: 10,
       textAlign: "center",
-      marginLeft: 10
+      marginLeft: 20
     }}
     value={value}
   />

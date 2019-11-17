@@ -11,6 +11,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import MessagesLink from "../components/MessagesLink";
 import NavIcon from "../components/NavIcons";
 import { stackStyles } from "./config";
+import styles from "../styles";
 
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator(
@@ -18,14 +19,22 @@ const stackFactory = (initialRoute, customConfig) =>
       initialRoute: {
         screen: initialRoute,
         navigationOptions: {
-          ...customConfig,
-          headerStyle: { ...stackStyles }
+          ...customConfig
         }
       },
-      Detail
+      Detail: {
+        screen: Detail,
+        navigationOptions: {
+          headerTintColor: styles.blackColor,
+          title: "Photo"
+        }
+      }
     },
     {
-      headerLayoutPreset: "center"
+      defaultNavigationOptions: {
+        headerLayoutPreset: "center",
+        headerStyle: { ...stackStyles }
+      }
     }
   );
 
@@ -47,7 +56,7 @@ const TabNavigation = createBottomTabNavigator(
       }
     },
     Search: {
-      screen: stackFactory(Search),
+      screen: stackFactory(Search, { headerBackTitle: null }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
           <NavIcon
