@@ -59,9 +59,7 @@ const SearchPresenter = ({ term, shouldFetch }) => {
         data &&
         data.searchPost &&
         data.searchPost.length > 0 &&
-        data.searchPost.map(post => {
-          return <SquarePhoto key={post.id} {...post} />;
-        })}
+        data.searchPost.map(post => <SquarePhoto key={post.id} {...post} />)}
     </ScrollView>
   );
 };

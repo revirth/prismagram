@@ -5,6 +5,7 @@ import Home from "../screens/Home";
 import Search from "../screens/Search";
 import Notification from "../screens/Notification";
 import Profile from "../screens/Profile";
+import Detail from "../screens/Detail";
 import { createStackNavigator } from "react-navigation-stack";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MessagesLink from "../components/MessagesLink";
@@ -20,7 +21,8 @@ const stackFactory = (initialRoute, customConfig) =>
           ...customConfig,
           headerStyle: { ...stackStyles }
         }
-      }
+      },
+      Detail
     },
     {
       headerLayoutPreset: "center"
