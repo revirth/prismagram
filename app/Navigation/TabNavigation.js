@@ -6,6 +6,7 @@ import Search from "../screens/Search";
 import Notification from "../screens/Notification";
 import Profile from "../screens/Profile";
 import Detail from "../screens/Detail";
+import UserDetail from "../screens/UserDetail";
 import { createStackNavigator } from "react-navigation-stack";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MessagesLink from "../components/MessagesLink";
@@ -25,16 +26,23 @@ const stackFactory = (initialRoute, customConfig) =>
       Detail: {
         screen: Detail,
         navigationOptions: {
-          headerTintColor: styles.blackColor,
           title: "Photo"
+        }
+      },
+      UserDetail: {
+        screen: UserDetail,
+        navigationOptions: {
+          title: "User"
         }
       }
     },
     {
       defaultNavigationOptions: {
-        headerLayoutPreset: "center",
+        headerBackTitle: null,
+        headerTintColor: styles.blackColor,
         headerStyle: { ...stackStyles }
-      }
+      },
+      headerLayoutPreset: "center"
     }
   );
 
@@ -111,7 +119,7 @@ const TabNavigation = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "Search",
+    initialRouteName: "Profile",
     tabBarOptions: {
       showLabel: false,
       style: {
