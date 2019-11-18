@@ -1,18 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { ScrollViewer } from "react-native";
 import styled from "styled-components";
+import { gql } from "apollo-boost";
+import { USER_FRAGMENT } from "./Queries";
+import { ScrollView } from "react-native-gesture-handler";
+import { useQuery } from "react-apollo-hooks";
+import Loader from "../components/Loader";
+import UserProfile from "../components/UserProfile";
 
-const View = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+const ME_QUERY = gql`
+  {
+    me {
+      ...UserPart
+    }
+  }
+  ${USER_FRAGMENT}
 `;
 
-const Text = styled.Text``;
+export default ({ navigation }) => {
+  const { data, loading } = useQuery(ME_QUERY);
 
-const Profile = () => (
-  <View>
-    <Text>Profile</Text>
-  </View>
-);
+  console.log(data, loading);
 
-export default Profile;
+  useEffect(() => {
+    if (data && data.me) {
+      navigation.setParams("title", data.me.userName);
+    }
+  }, [data]);
+
+  return (
+    <ScrollView>
+      {loading && <Loader />}
+      {!loading && data && data.me && <UserProfile {...data.me} />}
+    </ScrollView>
+  );
+};
