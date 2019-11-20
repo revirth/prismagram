@@ -4,20 +4,40 @@ import SelectPhoto from "../screens/Photo/SelectPhoto";
 import TakePhoto from "../screens/Photo/TakePhoto";
 import UploadPhoto from "../screens/Photo/UploadPhoto";
 import { stackStyles } from "./config";
+import styles from "../styles";
 
 const PhotoTab = createMaterialTopTabNavigator(
   {
-    SelectPhoto,
-    TakePhoto
+    Select: {
+      screen: SelectPhoto,
+      navigationOptions: { tabBarLabel: "Select" }
+    },
+    Take: { screen: TakePhoto, navigationOptions: { tabBarLabel: "Take" } }
   },
   {
-    tabBarPosition: "bottom"
+    tabBarPosition: "bottom",
+    tabBarOptions: {
+      indicatorStyle: {
+        backgroundColor: styles.blackColor,
+        marginBottom: 3
+      },
+      labelStyle: {
+        color: styles.blackColor,
+        fontWeight: "600"
+      },
+      style: { ...stackStyles }
+    }
   }
 );
 
 const PhotoNavigation = createStackNavigator(
   {
-    PhotoNavigation: PhotoTab,
+    Tabs: {
+      screen: PhotoTab,
+      navigationOptions: {
+        header: null
+      }
+    },
     UploadPhoto
   },
   {
