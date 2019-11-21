@@ -35,7 +35,7 @@ const PhotoNavigation = createStackNavigator(
     Tabs: {
       screen: PhotoTab,
       navigationOptions: {
-        header: null
+        headerTitle: "Choose Photo"
       }
     },
     UploadPhoto
