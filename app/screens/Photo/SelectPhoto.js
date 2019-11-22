@@ -5,7 +5,7 @@ import * as Permissions from "expo-permissions";
 import * as MediaLibrary from "expo-media-library";
 import Loader from "../../components/Loader";
 import constants from "../../constants";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native";
 
 const View = styled.View`
   flex: 1;
@@ -53,14 +53,14 @@ const SelectPhoto = () => {
       }
     } catch (error) {
       console.log("getPermission", error);
-      hasPermission(false);
+      setHasPermission(false);
     } finally {
     }
   };
 
   useEffect(() => {
     askPermission();
-  }, [hasPermission]);
+  }, []);
 
   const changeSelected = photo => {
     setSelected(photo);
@@ -79,7 +79,9 @@ const SelectPhoto = () => {
           ) : (
             "rejected"
           )}
-          <ScrollView contentContainerStyle={{ flexDirection: "row" }}>
+          <ScrollView
+            contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+          >
             {allPhotos.map(photo => (
               <TouchableOpacity
                 key={photo.id}
