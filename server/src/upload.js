@@ -5,9 +5,9 @@ const upload = multer({ dest: "uploads/" });
 export const uploadMiddleware = upload.single("photo");
 
 export const uploadController = (req, res) => {
-  const { file } = req;
+  const {
+    file: { path }
+  } = req;
 
-  console.log(file);
-
-  res.end();
+  res.json({ path });
 };
