@@ -6,6 +6,20 @@ import styles from "../../styles";
 import axios from "axios";
 import constants from "../../constants";
 import apolloClientOptions from "../../apollo";
+import { gql } from "apollo-boost";
+import { useMutation } from "react-apollo-hooks";
+
+const UPLOAD_POST = gql`
+  mutation uploadPost(
+    $caption: String!
+    $files: [String!]!
+    $location: String
+  ) {
+    uploadPost(caption: $caption, files: $files, location: $location) {
+      id
+    }
+  }
+`;
 
 const View = styled.View`
   flex: 1;
@@ -40,10 +54,16 @@ const Button = styled.TouchableOpacity`
 
 const UploadPhoto = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
-  const [fileUrl, setFileUrl] = useState("");
   const input_Caption = useInput("caption1");
   const inputLocation = useInput("locaiton1");
   const photo = navigation.getParam("photo");
+
+  const [uploadPostMutation] = useMutation(UPLOAD_POST, {
+    variables: {
+      caption: input_Caption.value,
+      location: inputLocation.value
+    }
+  });
 
   const handleSubmit = async () => {
     if (input_Caption.value === "" || inputLocation.value === "") {
@@ -60,17 +80,28 @@ const UploadPhoto = ({ navigation }) => {
     });
 
     try {
+      setLoading(true);
+
+      // Upload to Imgur
       const {
-        data: { path }
+        data: { link }
       } = await axios.post(`${apolloClientOptions.uri}/api/upload`, formData, {
         "Content-Type": "multipart/form-data"
       });
+      console.log(link);
 
-      console.log(path);
-      setFileUrl(path);
+      // Upload to the server
+      const {
+        data: { uploadPost }
+      } = await uploadPostMutation({ variables: { files: [link] } }); // add files parameter
+      console.log(uploadPost);
+
+      navigation.navigate("TabNavigation");
     } catch (error) {
       console.log(error);
       Alert.alert("Can't upload the photo", "Try later");
+    } finally {
+      setLoading(false);
     }
   };
 
