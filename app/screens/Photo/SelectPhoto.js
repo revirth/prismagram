@@ -42,11 +42,27 @@ const SelectPhoto = ({ navigation }) => {
 
       // in android emulator, I don't have any photos
       const assets = [
-        { id: 1, uri: `https://placekitten.com/300/300` },
-        { id: 2, uri: `https://placekitten.com/400/400` },
-        { id: 3, uri: `https://placekitten.com/500/500` },
-        { id: 4, uri: `https://placekitten.com/600/600` },
-        { id: 5, uri: `https://placekitten.com/700/700` }
+        {
+          id: 1,
+          uri: `http://placekitten.com/300/300`,
+          filename: "kitty1.png"
+        },
+        {
+          id: 2,
+          uri: `http://placekitten.com/400/400`,
+          filename: "kitty2.png"
+        },
+        {
+          id: 3,
+          uri: `http://placekitten.com/500/500`,
+          filename: "kitty3.png"
+        },
+        {
+          id: 4,
+          uri: `http://placekitten.com/600/600`,
+          filename: "kitty4.png"
+        },
+        { id: 5, uri: `http://placekitten.com/700/700`, filename: "kitty5.png" }
       ];
       const [firstPhoto] = assets;
       // TODO : check in real phone
