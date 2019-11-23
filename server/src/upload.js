@@ -1,6 +1,14 @@
+require("dotenv-expand")(require("dotenv").config());
 import multer from "multer";
+const ImgurStorage = require("@trevorblades/multer-storage-imgur");
 
-const upload = multer({ dest: "uploads/" });
+const upload = multer({
+  dest: "uploads/",
+  storage: ImgurStorage({
+    albumId: `${process.env.IMGUR_ALBUM_ID}`, // TODO: change other storage, albumId doesn't work :/
+    clientId: `${process.env.IMGUR_CLIENT_ID}`
+  })
+});
 
 export const uploadMiddleware = upload.single("photo");
 
@@ -9,5 +17,5 @@ export const uploadController = (req, res) => {
 
   console.log(file);
 
-  res.end();
+  res.json(file.data);
 };
