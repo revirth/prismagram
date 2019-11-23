@@ -35,14 +35,21 @@ const PhotoNavigation = createStackNavigator(
     Tabs: {
       screen: PhotoTab,
       navigationOptions: {
-        headerTitle: "Choose Photo"
+        headerTitle: "Choose Photo",
+        headerBackTitle: null
       }
     },
-    UploadPhoto
+    Upload: {
+      screen: UploadPhoto,
+      navigationOptions: {
+        title: "Upload"
+      }
+    }
   },
   {
     defaultNavigationOptions: {
-      headerSyle: { ...stackStyles }
+      headerSyle: { ...stackStyles },
+      headerTintColor: styles.blackColor
     }
   }
 );
