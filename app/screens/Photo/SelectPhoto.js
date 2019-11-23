@@ -6,18 +6,35 @@ import * as MediaLibrary from "expo-media-library";
 import Loader from "../../components/Loader";
 import constants from "../../constants";
 import { ScrollView, TouchableOpacity } from "react-native";
+import styles from "../../styles";
+import { NavigationEvents } from "react-navigation";
 
 const View = styled.View`
   flex: 1;
 `;
 
-const Text = styled.Text``;
+const Text = styled.Text`
+  color: white;
+  font-weight: 600;
+`;
 
-const SelectPhoto = () => {
+const Button = styled.TouchableOpacity`
+  width: 100px;
+  height: 30px;
+  position: absolute;
+  right: 5px;
+  top: 15px;
+  background-color: ${styles.blueColor};
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+`;
+
+const SelectPhoto = ({ navigation }) => {
   const [loading, setloading] = useState(true);
   const [hasPermission, setHasPermission] = useState(false);
-  const [selected, setSelected] = useState();
-  const [allPhotos, setallPhotos] = useState();
+  const [selected, setSelected] = useState(); // TODO: multiple select
+  const [allPhotos, setAllPhotos] = useState();
 
   const getPhotos = async () => {
     try {
@@ -35,7 +52,7 @@ const SelectPhoto = () => {
       // TODO : check in real phone
 
       setSelected(firstPhoto);
-      setallPhotos(assets);
+      setAllPhotos(assets);
     } catch (error) {
       console.error("getPhotos error", error);
     } finally {
@@ -66,16 +83,26 @@ const SelectPhoto = () => {
     setSelected(photo);
   };
 
+  const handleSelected = () => {
+    navigation.navigate("Upload", { photo: selected });
+  };
+
   return (
     <View>
       {loading && <Loader />}
       {!loading && (
         <View>
           {hasPermission ? (
-            <Image
-              style={{ width: constants.width, height: constants.height / 2 }}
-              source={{ uri: selected.uri }}
-            />
+            <>
+              <Image
+                style={{ width: constants.width, height: constants.height / 2 }}
+                source={{ uri: selected.uri }}
+              />
+
+              <Button onPress={handleSelected}>
+                <Text>Select Photo</Text>
+              </Button>
+            </>
           ) : (
             "rejected"
           )}
