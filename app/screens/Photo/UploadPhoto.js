@@ -8,6 +8,7 @@ import constants from "../../constants";
 import apolloClientOptions from "../../apollo";
 import { gql } from "apollo-boost";
 import { useMutation } from "react-apollo-hooks";
+import { FEED_QUERY } from "../Queries";
 
 const UPLOAD_POST = gql`
   mutation uploadPost(
@@ -62,7 +63,8 @@ const UploadPhoto = ({ navigation }) => {
     variables: {
       caption: input_Caption.value,
       location: inputLocation.value
-    }
+    },
+    refetchQueries: () => [{ query: FEED_QUERY }]
   });
 
   const handleSubmit = async () => {
