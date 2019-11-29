@@ -19,7 +19,7 @@ const Text = styled.Text`
 `;
 
 const Button = styled.TouchableOpacity`
-  width: 100px;
+  width: 120px;
   height: 30px;
   position: absolute;
   right: 5px;
@@ -33,7 +33,7 @@ const Button = styled.TouchableOpacity`
 const SelectPhoto = ({ navigation }) => {
   const [loading, setloading] = useState(true);
   const [hasPermission, setHasPermission] = useState(false);
-  const [selected, setSelected] = useState(); // TODO: multiple select
+  const [selected, setSelected] = useState([]);
   const [allPhotos, setAllPhotos] = useState();
 
   const getPhotos = async () => {
@@ -41,33 +41,15 @@ const SelectPhoto = ({ navigation }) => {
       // const { assets } = await MediaLibrary.getAssetsAsync();
 
       // in android emulator, I don't have any photos
-      const assets = [
-        {
-          id: 1,
-          uri: `http://placekitten.com/300/300`,
-          filename: "kitty1.png"
-        },
-        {
-          id: 2,
-          uri: `http://placekitten.com/400/400`,
-          filename: "kitty2.png"
-        },
-        {
-          id: 3,
-          uri: `http://placekitten.com/500/500`,
-          filename: "kitty3.png"
-        },
-        {
-          id: 4,
-          uri: `http://placekitten.com/600/600`,
-          filename: "kitty4.png"
-        },
-        { id: 5, uri: `http://placekitten.com/700/700`, filename: "kitty5.png" }
-      ];
+      const assets = new Array(50).fill(null).map((n, i) => ({
+        id: i + 1,
+        uri: `http://placekitten.com/${(i + 1) * 50}`,
+        filename: `kitty${i + 1}.png`
+      }));
       const [firstPhoto] = assets;
       // TODO : check in real phone
 
-      setSelected(firstPhoto);
+      setSelected([firstPhoto]);
       setAllPhotos(assets);
     } catch (error) {
       console.error("getPhotos error", error);
@@ -96,11 +78,21 @@ const SelectPhoto = ({ navigation }) => {
   }, []);
 
   const changeSelected = photo => {
-    setSelected(photo);
+    const idx = selected.findIndex(p => p.id === photo.id);
+    const arr =
+      idx > -1 ? selected.filter(p => p.id !== photo.id) : [...selected, photo];
+
+    console.log(`\n\n${new Date()}`, idx, arr);
+
+    if (arr.length === 0) return;
+
+    setSelected(arr);
   };
 
-  const handleSelected = () => {
-    navigation.navigate("Upload", { photo: selected });
+  const onPressNext = () => {
+    console.log("Upload", selected);
+
+    // navigation.navigate("Upload", { photos: selected });
   };
 
   return (
@@ -115,8 +107,10 @@ const SelectPhoto = ({ navigation }) => {
                 source={{ uri: selected.uri }}
               />
 
-              <Button onPress={handleSelected}>
-                <Text>Select Photo</Text>
+              <Button onPress={onPressNext}>
+                <Text>
+                  Select {selected.length} Photo{selected.length > 1 ? "s" : ""}
+                </Text>
               </Button>
             </>
           ) : (
@@ -134,7 +128,7 @@ const SelectPhoto = ({ navigation }) => {
                   style={{
                     width: constants.width / 3,
                     height: constants.width / 3,
-                    opacity: photo.id === selected.id ? 0.5 : 1
+                    opacity: selected.find(p => p.id === photo.id) ? 0.5 : 1
                   }}
                   source={{ uri: photo.uri }}
                 />
