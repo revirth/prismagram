@@ -50,7 +50,8 @@ const Bold = styled.Text`
 
 const ButtonContainer = styled.View`
   flex-direction: row;
-  margin-top: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 const Button = styled.View`
@@ -118,14 +119,15 @@ const UserProfile = ({
           </Button>
         </TouchableOpacity>
       </ButtonContainer>
-      {posts &&
-        posts.map(post =>
-          isGrid ? (
-            <SquarePhoto key={post.id} {...post} />
-          ) : (
-            <Post key={post.id} {...post} />
-          )
-        )}
+      {isGrid ? (
+        <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+          {posts && posts.map(post => <SquarePhoto key={post.id} {...post} />)}
+        </View>
+      ) : (
+        <View>
+          {posts && posts.map(post => <Post key={post.id} {...post} />)}
+        </View>
+      )}
     </View>
   );
 };
