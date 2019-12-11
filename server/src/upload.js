@@ -10,12 +10,12 @@ const upload = multer({
   })
 });
 
-export const uploadMiddleware = upload.single("photo");
+export const uploadMiddleware = upload.array("photo");
 
 export const uploadController = (req, res) => {
-  const { file } = req;
+  const { files } = req;
 
-  console.log(file);
+  console.log("uploadController.files", files);
 
-  res.json(file.data);
+  res.json(files.map(f => f.data));
 };

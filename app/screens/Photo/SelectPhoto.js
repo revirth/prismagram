@@ -18,8 +18,8 @@ const Text = styled.Text`
   font-weight: 600;
 `;
 
-const Button = styled.TouchableOpacity`
-  width: 120px;
+const NextButton = styled.TouchableOpacity`
+  width: 150px;
   height: 30px;
   position: absolute;
   right: 5px;
@@ -33,22 +33,16 @@ const Button = styled.TouchableOpacity`
 const SelectPhoto = ({ navigation }) => {
   const [loading, setloading] = useState(true);
   const [hasPermission, setHasPermission] = useState(false);
+  const [bigPhoto, setBigPhoto] = useState();
   const [selected, setSelected] = useState([]);
   const [allPhotos, setAllPhotos] = useState();
 
   const getPhotos = async () => {
     try {
-      // const { assets } = await MediaLibrary.getAssetsAsync();
-
-      // in android emulator, I don't have any photos
-      const assets = new Array(50).fill(null).map((n, i) => ({
-        id: i + 1,
-        uri: `http://placekitten.com/${(i + 1) * 50}`,
-        filename: `kitty${i + 1}.png`
-      }));
+      const { assets } = await MediaLibrary.getAssetsAsync();
       const [firstPhoto] = assets;
-      // TODO : check in real phone
 
+      setBigPhoto(firstPhoto);
       setSelected([firstPhoto]);
       setAllPhotos(assets);
     } catch (error) {
@@ -84,15 +78,19 @@ const SelectPhoto = ({ navigation }) => {
 
     console.log(`\n\n${new Date()}`, idx, arr);
 
+    setBigPhoto(photo);
+
     if (arr.length === 0) return;
 
     setSelected(arr);
+
+    //TODO: scroll to the selected photo
   };
 
   const onPressNext = () => {
     console.log("Upload", selected);
 
-    // navigation.navigate("Upload", { photos: selected });
+    navigation.navigate("Upload", { photos: selected });
   };
 
   return (
@@ -104,14 +102,14 @@ const SelectPhoto = ({ navigation }) => {
             <>
               <Image
                 style={{ width: constants.width, height: constants.height / 2 }}
-                source={{ uri: selected.uri }}
+                source={{ uri: bigPhoto.uri }}
               />
 
-              <Button onPress={onPressNext}>
+              <NextButton onPress={onPressNext}>
                 <Text>
                   Select {selected.length} Photo{selected.length > 1 ? "s" : ""}
                 </Text>
-              </Button>
+              </NextButton>
             </>
           ) : (
             "rejected"
