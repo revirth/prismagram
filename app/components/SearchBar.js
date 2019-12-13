@@ -18,7 +18,8 @@ const SearchBar = ({ onChange, value, onSubmit }) => (
       padding: 10,
       borderRadius: 10,
       textAlign: "center",
-      marginLeft: 20
+      marginLeft: 20,
+      fontSize: 11
     }}
     value={value}
   />

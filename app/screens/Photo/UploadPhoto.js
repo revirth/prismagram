@@ -57,7 +57,9 @@ const UploadPhoto = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const input_Caption = useInput("caption1");
   const inputLocation = useInput("locaiton1");
-  const photo = navigation.getParam("photo");
+  const photos = navigation.getParam("photos");
+
+  console.log("UploadPhoto", photos);
 
   const [uploadPostMutation] = useMutation(UPLOAD_POST, {
     variables: {
@@ -74,29 +76,36 @@ const UploadPhoto = ({ navigation }) => {
     }
 
     const formData = new FormData();
-
-    formData.append("photo", {
-      name: photo.filename,
-      type: "image/jpeg",
-      uri: photo.uri // TODO: test with real phone
-    });
+    photos.forEach(photo =>
+      formData.append("photo", {
+        name: photo.filename,
+        type: "image/jpeg",
+        uri: photo.uri
+      })
+    );
 
     try {
       setLoading(true);
 
       // Upload to Imgur
-      const {
-        data: { link }
-      } = await axios.post(`${apolloClientOptions.uri}/api/upload`, formData, {
-        "Content-Type": "multipart/form-data"
-      });
-      console.log(link);
+      const { data: uploadedImages } = await axios.post(
+        `${apolloClientOptions.uri}/api/upload`,
+        formData,
+        {
+          "Content-Type": "multipart/form-data"
+        }
+      );
+      console.log(
+        "uploadedImages",
+        uploadedImages,
+        uploadedImages.map(i => i.link)
+      );
 
       // Upload to the server
-      const {
-        data: { uploadPost }
-      } = await uploadPostMutation({ variables: { files: [link] } }); // add files parameter
-      console.log(uploadPost);
+      const uploadedPost = await uploadPostMutation({
+        variables: { files: uploadedImages.map(i => i.link) }
+      });
+      console.log("uploadedPost", uploadedPost);
 
       navigation.navigate("TabNavigation");
     } catch (error) {
@@ -111,7 +120,7 @@ const UploadPhoto = ({ navigation }) => {
     <View>
       <Container>
         <Image
-          source={{ uri: photo.uri }}
+          source={{ uri: photos.uri }}
           style={{ height: 80, width: 80, marginRight: 30 }}
         />
         <Form>
@@ -138,7 +147,7 @@ const UploadPhoto = ({ navigation }) => {
           </Button>
         </Form>
       </Container>
-      <Text>{navigation.getParam("photo").uri}</Text>
+      <Text>{navigation.getParam("photos")[0].uri}</Text>
     </View>
   );
 };
